@@ -7,8 +7,6 @@ import pl.database.Database;
 import pl.dto.loadermodel.basisproduct.BasisProduct;
 import pl.dto.salesmodel.bodyReceipt.ReceiptBody;
 import pl.dto.salesmodel.bodyReceipt.ReceiptBodyBuilder;
-import pl.dto.salesmodel.productmodel.BodyBasis;
-import pl.dto.salesmodel.productmodel.BodyBasisBuilder;
 import pl.dto.salesmodel.productmodel.Product;
 import pl.dto.salesmodel.productmodel.ProductBasket;
 import pl.dto.salesmodel.sumsupmodel.SumsUp;
@@ -40,13 +38,13 @@ public class ReceiptBasket {
   }
 
   public Receipt getCurrentReceipt() {
-    List<Product> products = productBasket.getProducts();
+    List<Product> products = getCurrentProducts();
     BigDecimal discountForCommonPurchase = calculate.calculateDiscountForCommonPurchase(products);
     BigDecimal discountForBigPurchases = calculate.calculateDiscountForBigPurchases(products);
     BigDecimal totalPrice = calculate.calculateTotalPrice(products,
         discountForCommonPurchase, discountForBigPurchases);
     SumsUp sumsUp = getSumsUp(discountForCommonPurchase, discountForBigPurchases, totalPrice);
-    List<ReceiptBody> receiptBodyList = createProductBodyList(products);
+    List<ReceiptBody> receiptBodyList = createReceiptBodyList(products);
     Receipt receipt = database.generateReceipt(receiptBodyList, sumsUp);
     return receipt;
   }
@@ -56,18 +54,25 @@ public class ReceiptBasket {
     productBasket.clearListWithProductsAfterSave();
   }
 
-  private List<ReceiptBody> createProductBodyList(List<Product> products) {
+  private List<Product> getCurrentProducts() {
+    List<Product> products = productBasket.getProducts();
+    return products;
+  }
+
+  private List<ReceiptBody> createReceiptBodyList(List<Product> products) {
     List<ReceiptBody> receiptBodyList = new ArrayList<>();
     for (Product product : products) {
       BasisProduct basisProduct = product.getProductStore().getBasisProduct();
       Integer quantityPurchase = product.getQuantityPurchase();
       String productName = basisProduct.getProductName();
       BigDecimal price = basisProduct.getPrice();
-      BodyBasis bodyBasis = BodyBasisBuilder.builder()
-          .bodyWithOutId(productName, price);
       BigDecimal specialPrice = product.getSpecialPrice();
       ReceiptBody createReceiptBody = ReceiptBodyBuilder.bodyBuilder()
-          .buildWithOutId(bodyBasis, quantityPurchase, specialPrice);
+          .withName(productName)
+          .withPrice(price)
+          .withQuantityPurchase(quantityPurchase)
+          .withSpecialPrice(specialPrice)
+          .build();
       receiptBodyList.add(createReceiptBody);
     }
     return receiptBodyList;

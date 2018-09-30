@@ -1,72 +1,46 @@
 package pl.dto.salesmodel.bodyReceipt;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import pl.dto.salesmodel.Receipt;
-import pl.dto.salesmodel.productmodel.BodyBasis;
+import javax.persistence.Embeddable;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "body_receipt")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Embeddable
 public class ReceiptBody implements Serializable {
 
-  @JsonIgnore
-  private int idReceiptBody;
-  private BodyBasis bodyBasis;
+  private String name;
+  private BigDecimal price;
   private Integer quantityPurchase;
   private BigDecimal specialPrice;
 
-  private Receipt receipt;
-
-  public ReceiptBody() {
-  }
-
-  @JsonCreator
-  public ReceiptBody(@JsonProperty("id") int idReceiptBody,
-      @JsonProperty("basisBody") BodyBasis bodyBasis,
-      @JsonProperty("quantity") Integer quantityPurchase,
-      @JsonProperty("specialPrice") BigDecimal specialPrice) {
-    this.idReceiptBody = idReceiptBody;
-    this.bodyBasis = bodyBasis;
+  public ReceiptBody(String name, BigDecimal price, Integer quantityPurchase,
+      BigDecimal specialPrice) {
+    this.name = name;
+    this.price = price;
     this.quantityPurchase = quantityPurchase;
     this.specialPrice = specialPrice;
   }
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "body_receipt_id")
-  public int getIdReceiptBody() {
-    return idReceiptBody;
+  public ReceiptBody() {
   }
 
-  public void setIdReceiptBody(int idReceiptBody) {
-    this.idReceiptBody = idReceiptBody;
+  @Column(name = "name_product", nullable = false)
+  public String getName() {
+    return name;
   }
 
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name = "body_id")
-  public BodyBasis getBodyBasis() {
-    return bodyBasis;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public void setBodyBasis(BodyBasis bodyBasis) {
-    this.bodyBasis = bodyBasis;
+  @Column(name = "price_product", nullable = false)
+  public BigDecimal getPrice() {
+    return price;
+  }
+
+  public void setPrice(BigDecimal price) {
+    this.price = price;
   }
 
   @Column(name = "quantity_purchase", nullable = false)
@@ -87,16 +61,6 @@ public class ReceiptBody implements Serializable {
     this.specialPrice = specialPrice;
   }
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name = "receipt_id")
-  public Receipt getReceipt() {
-    return receipt;
-  }
-
-  public void setReceipt(Receipt receipt) {
-    this.receipt = receipt;
-  }
-
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -108,11 +72,10 @@ public class ReceiptBody implements Serializable {
 
     ReceiptBody that = (ReceiptBody) obj;
 
-    if (idReceiptBody != that.idReceiptBody) {
+    if (name != null ? !name.equals(that.name) : that.name != null) {
       return false;
     }
-    if (bodyBasis != null ? !bodyBasis.equals(that.bodyBasis)
-        : that.bodyBasis != null) {
+    if (price != null ? !price.equals(that.price) : that.price != null) {
       return false;
     }
     if (quantityPurchase != null ? !quantityPurchase.equals(that.quantityPurchase)
@@ -125,8 +88,8 @@ public class ReceiptBody implements Serializable {
 
   @Override
   public int hashCode() {
-    int result = idReceiptBody;
-    result = 31 * result + (bodyBasis != null ? bodyBasis.hashCode() : 0);
+    int result = name != null ? name.hashCode() : 0;
+    result = 31 * result + (price != null ? price.hashCode() : 0);
     result = 31 * result + (quantityPurchase != null ? quantityPurchase.hashCode() : 0);
     result = 31 * result + (specialPrice != null ? specialPrice.hashCode() : 0);
     return result;
@@ -134,9 +97,11 @@ public class ReceiptBody implements Serializable {
 
   @Override
   public String toString() {
-    return "ReceiptBody{" + "idReceiptBody=" + idReceiptBody
-        + ", bodyBasis=" + bodyBasis
-        + ", quantityPurchase=" + quantityPurchase
-        + ", specialPrice=" + specialPrice + '}';
+    return "ReceiptBody{" +
+        "name='" + name + '\'' +
+        ", price=" + price +
+        ", quantityPurchase=" + quantityPurchase +
+        ", specialPrice=" + specialPrice +
+        '}';
   }
 }

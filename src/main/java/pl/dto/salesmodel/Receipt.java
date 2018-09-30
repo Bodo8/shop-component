@@ -5,14 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import pl.dto.salesmodel.bodyReceipt.ReceiptBody;
@@ -66,6 +67,7 @@ public class Receipt implements Serializable, Comparable<Receipt> {
     this.id = id;
   }
 
+  @Column(name = "date")
   public LocalDate getDate() {
     return date;
   }
@@ -74,18 +76,16 @@ public class Receipt implements Serializable, Comparable<Receipt> {
     this.date = date;
   }
 
-  @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
+  @ElementCollection
+  @CollectionTable(name = "body_receipt",
+      joinColumns = @JoinColumn(name = "owner_id"))
+  @Column(name = "body_receipt")
   public List<ReceiptBody> getReceiptBodies() {
     return receiptBodies;
   }
 
   public void setReceiptBodies(List<ReceiptBody> receiptBodies) {
     this.receiptBodies = receiptBodies;
-  }
-
-  public void addReceiptBody(ReceiptBody receiptBody) {
-    this.receiptBodies.add(receiptBody);
-    receiptBody.setReceipt(this);
   }
 
   @Override

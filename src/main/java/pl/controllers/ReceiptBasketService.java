@@ -11,20 +11,20 @@ import java.util.List;
 public class ReceiptBasketService {
 
   @Resource
-  private final ReceiptBasket receiptToBasket;
+  private final ReceiptBasket receiptBasket;
 
-  ReceiptBasketService(ReceiptBasket receiptToBasket) {
-    this.receiptToBasket = receiptToBasket;
+  ReceiptBasketService(ReceiptBasket receiptBasket) {
+    this.receiptBasket = receiptBasket;
   }
 
   int postReceipt() {
-    Receipt receipt = receiptToBasket
+    Receipt receipt = receiptBasket
         .getCurrentReceipt();
-    receiptToBasket.saveReceipt(receipt);
+    receiptBasket.saveReceipt(receipt);
     return receipt.getId();
   }
 
   List<Receipt> getReceiptAll() {
-    return receiptToBasket.getAllReceipt();
+    return receiptBasket.getAllReceipt();
   }
 }

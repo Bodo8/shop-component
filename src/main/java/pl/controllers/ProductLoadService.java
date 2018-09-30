@@ -17,11 +17,18 @@ class ProductLoadService {
     this.loadProduct = loadProduct;
   }
 
+  /**
+   * @param productsStore - new product to the database
+   * @return - id new product.
+   */
   int postProductStore(ProductsStore productsStore) {
     loadProduct.addProductToWarehouse(productsStore);
     return productsStore.getId();
   }
 
+  /**
+   * @return - all products with available in the database.
+   */
   List<ProductsStore> getAllProducts() {
     return loadProduct.getProducts();
   }

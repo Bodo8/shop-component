@@ -1,13 +1,11 @@
 package pl.dto.salesmodel.bodyReceipt;
 
-import pl.dto.salesmodel.productmodel.BodyBasis;
-
 import java.math.BigDecimal;
 
 public class ReceiptBodyBuilder {
 
-  private int idReceiptBody;
-  private BodyBasis bodyBasis;
+  private String name;
+  private BigDecimal price;
   private Integer quantityPurchase;
   private BigDecimal specialPrice;
 
@@ -15,13 +13,13 @@ public class ReceiptBodyBuilder {
     return new ReceiptBodyBuilder();
   }
 
-  public ReceiptBodyBuilder withIdProductBody(int idReceiptBody) {
-    this.idReceiptBody = idReceiptBody;
+  public ReceiptBodyBuilder withName(String name) {
+    this.name = name;
     return this;
   }
 
-  public ReceiptBodyBuilder withBasisProduct(BodyBasis bodyBasis) {
-    this.bodyBasis = bodyBasis;
+  public ReceiptBodyBuilder withPrice(BigDecimal price) {
+    this.price = price;
     return this;
   }
 
@@ -36,16 +34,6 @@ public class ReceiptBodyBuilder {
   }
 
   public ReceiptBody build() {
-    return new ReceiptBody(idReceiptBody, bodyBasis, quantityPurchase, specialPrice);
-  }
-
-  public ReceiptBody buildWithOutId(BodyBasis bodyBasis, Integer quantityPurchase,
-      BigDecimal specialPrice) {
-    return ReceiptBodyBuilder.bodyBuilder()
-        .withBasisProduct(bodyBasis)
-        .withQuantityPurchase(quantityPurchase)
-        .withSpecialPrice(specialPrice)
-        .build();
-
+    return new ReceiptBody(name, price, quantityPurchase, specialPrice);
   }
 }
