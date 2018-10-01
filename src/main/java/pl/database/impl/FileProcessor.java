@@ -5,6 +5,9 @@ import pl.dto.salesmodel.Receipt;
 import java.io.File;
 import java.util.List;
 
+/**
+ * FileProcessor class is responsible for file operations.
+ */
 public class FileProcessor {
 
   /**

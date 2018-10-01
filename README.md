@@ -1,10 +1,10 @@
 "# shop-component"
 
-The project is still under construction.
-This has not yet added a function to read product prices from the SQL database.
-
-The project currently has a record in the memory in the file and in the MySQL database..
+The project has implemented the addition of new products to the MySQL database,
+buying these products, viewing the current receipt and sales that is saving the receipt to the database.
+The project currently has a record in the memory in the file and in the MySQL database.
 Spring Boot, Swagger and Hibernate is implement.
+I use design patterns strategy and decorator.
 
 product-book-controller: adds another product to the receipt
 and can show the value of the receipt.

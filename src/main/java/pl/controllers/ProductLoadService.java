@@ -27,7 +27,7 @@ class ProductLoadService {
   }
 
   /**
-   * @return - all products with available in the database.
+   * @return - all products available in the database.
    */
   List<ProductsStore> getAllProducts() {
     return loadProduct.getProducts();

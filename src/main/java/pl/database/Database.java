@@ -7,6 +7,9 @@ import pl.dto.salesmodel.sumsupmodel.SumsUp;
 
 import java.util.List;
 
+/**
+ * provides methods save and get Receipts from pl.database.
+ */
 public interface Database {
 
   void saveReceipt(Receipt receipt);

@@ -18,6 +18,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+/**
+ * InMemoryDatabase - database int the memory.
+ */
 @Service
 @ConditionalOnProperty(name = {"active.database"}, havingValue = "memory")
 public class InMemoryDatabase implements Database {
@@ -36,6 +39,9 @@ public class InMemoryDatabase implements Database {
     return productAtomicInteger.getAndIncrement();
   }
 
+  /**
+   * @param receipt - save given receipt into a pl.database.
+   */
   @Override
   public void saveReceipt(Receipt receipt) {
     receipt.setId(getNextReceiptId());
@@ -43,6 +49,9 @@ public class InMemoryDatabase implements Database {
     receipts.put(receiptId, receipt);
   }
 
+  /**
+   * @return - all receipts from the database.
+   */
   @Override
   public List<Receipt> getAllReceipt() {
     Collection<Receipt> receiptCollection = receipts.values();
@@ -64,6 +73,9 @@ public class InMemoryDatabase implements Database {
             sumsUp);
   }
 
+  /**
+   * @param product saves given product into a current receipt and database.
+   */
   @Override
   public synchronized void saveProduct(Product product) {
     product.setIdProduct(getNextProductId());
@@ -74,6 +86,9 @@ public class InMemoryDatabase implements Database {
     products.put(productName, product);
   }
 
+  /**
+   * @return - all products from the current receipt, from the database.
+   */
   @Override
   public List<Product> getProducts() {
     Collection<Product> productCollection = products.values();

@@ -17,6 +17,9 @@ public class ReceiptBasketService {
     this.receiptBasket = receiptBasket;
   }
 
+  /**
+   * @return - id new receipt.
+   */
   int postReceipt() {
     Receipt receipt = receiptBasket
         .getCurrentReceipt();
@@ -24,6 +27,9 @@ public class ReceiptBasketService {
     return receipt.getId();
   }
 
+  /**
+   * @return - all receipt from the database.
+   */
   List<Receipt> getReceiptAll() {
     return receiptBasket.getAllReceipt();
   }

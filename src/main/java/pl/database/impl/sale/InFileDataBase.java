@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+/**
+ * InFileDataBase - database in file.
+ */
 @Service
 @ConditionalOnProperty(name = {"active.database"}, havingValue = "file")
 public class InFileDataBase implements Database {
@@ -34,6 +37,9 @@ public class InFileDataBase implements Database {
     return atomicInteger.getAndIncrement();
   }
 
+  /**
+   * @param receipt - saves given receipt into a pl.database.
+   */
   @Override
   public void saveReceipt(Receipt receipt) {
     try {
@@ -50,6 +56,9 @@ public class InFileDataBase implements Database {
     }
   }
 
+  /**
+   * @param receipt - delete given receipt from the database.
+   */
   @Override
   public void removeReceipt(Receipt receipt) {
     try {
@@ -77,6 +86,9 @@ public class InFileDataBase implements Database {
     }
   }
 
+  /**
+   * @return - all receipts from pl.database.
+   */
   @Override
   public List<Receipt> getAllReceipt() {
     List<Receipt> receiptList = new ArrayList<>();
