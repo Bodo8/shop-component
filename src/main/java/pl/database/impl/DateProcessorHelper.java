@@ -16,6 +16,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * DateProcessorHelper class provides methods used in Database interface.
+ */
 @Configuration
 public class DateProcessorHelper {
 

@@ -14,6 +14,9 @@ import pl.dto.loadermodel.ProductsStore;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * ProductLoad controller - new product to the database.
+ */
 @RestController
 @RequestMapping("/load")
 public class ProductLoadController {
@@ -24,16 +27,24 @@ public class ProductLoadController {
     this.productLoadService = productLoadService;
   }
 
+  /**
+   * @param productsStore - admin add new product to the database.
+   * @return - id new purchased product.
+   */
   @ApiOperation(value = "Post another product in database",
       response = Integer.class)
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   int postProduct(
       @ApiParam(value = "product data")
-      @RequestBody ProductsStore productsStore) throws IOException {
+      @RequestBody ProductsStore productsStore) {
     return productLoadService.postProductStore(productsStore);
   }
 
+  /**
+   * @return - all products available in the database.
+   * @throws IOException - when no success in reading product.
+   */
   @ApiOperation(value = "Get all product",
       response = ProductsStore.class, responseContainer = "List")
   @GetMapping

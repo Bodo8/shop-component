@@ -19,6 +19,9 @@ import pl.dto.salesmodel.productmodel.PurchaseProduct;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * ProductBasket controller - new purchase customers.
+ */
 @RestController
 @RequestMapping("/product")
 public class ProductBasketController {
@@ -29,16 +32,24 @@ public class ProductBasketController {
     this.productBasketService = productBasketService;
   }
 
+  /**
+   * @param purchaseProduct - product witch will ad to the current receipt.
+   * @return - id product.
+   */
   @ApiOperation(value = "Post another product in receipt",
       response = Integer.class)
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   int postProduct(
       @ApiParam(value = "product data")
-      @RequestBody PurchaseProduct purchaseProduct) throws IOException {
+      @RequestBody PurchaseProduct purchaseProduct) {
     return productBasketService.postProduct(purchaseProduct);
   }
 
+  /**
+   * @return - all purchased products.
+   * @throws IOException - when no success in reading product.
+   */
   @ApiOperation(value = "Get current products",
       response = Product.class, responseContainer = "List")
   @GetMapping
@@ -47,6 +58,11 @@ public class ProductBasketController {
     return productBasketService.getListProducts();
   }
 
+  /**
+   * @param id - Id of product to be changed.
+   * @param purchaseProduct - new product.
+   * @throws IOException - when no success in reading and saving product.
+   */
   @ApiOperation(value = "Change an product of provided id")
   @PutMapping(value = "/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -57,6 +73,11 @@ public class ProductBasketController {
     productBasketService.putProduct(id, purchaseProduct);
   }
 
+  /**
+   * @param id - id product.
+   * @return - the number and description of exception.
+   * @throws IOException - when problems deleting product.
+   */
   @ApiOperation(value = "Delete an product of provided id",
       response = ResponseEntity.class, responseContainer = "List")
   @DeleteMapping(value = "/{id}")

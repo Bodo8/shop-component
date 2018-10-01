@@ -12,6 +12,9 @@ import pl.dto.salesmodel.Receipt;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * ReceiptBasket controller.
+ */
 @RestController
 @RequestMapping("/receipts")
 public class ReceiptBasketController {
@@ -22,6 +25,10 @@ public class ReceiptBasketController {
     this.service = service;
   }
 
+  /**
+   * @return - all receipt from the database.
+   * @throws IOException - when no success in reading receipt.
+   */
   @ApiOperation(value = "Get all receipt",
       response = Receipt.class, responseContainer = "List")
   @GetMapping
@@ -30,6 +37,10 @@ public class ReceiptBasketController {
     return service.getReceiptAll();
   }
 
+  /**
+   * @return - all receipts from the database.
+   * @throws IOException - when no success reading receipts.
+   */
   @ApiOperation(value = "Post another receipt",
       response = Integer.class)
   @PostMapping

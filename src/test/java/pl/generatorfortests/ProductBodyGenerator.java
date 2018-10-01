@@ -3,8 +3,6 @@ package pl.generatorfortests;
 import pl.dto.loadermodel.basisproduct.BasisProduct;
 import pl.dto.salesmodel.bodyReceipt.ReceiptBody;
 import pl.dto.salesmodel.bodyReceipt.ReceiptBodyBuilder;
-import pl.dto.salesmodel.productmodel.BodyBasis;
-import pl.dto.salesmodel.productmodel.BodyBasisBuilder;
 import pl.dto.salesmodel.productmodel.Product;
 
 import java.math.BigDecimal;
@@ -18,14 +16,13 @@ public class ProductBodyGenerator {
     List<Product> products = ProductGenerator.generateProductABCD();
     for (Product product : products) {
       BasisProduct basisProduct = product.getProductStore().getBasisProduct();
-      BodyBasis bodyBasis = BodyBasisBuilder.builder()
-          .withBodyBasisName(basisProduct.getProductName())
-          .withPrice(basisProduct.getPrice())
-          .build();
+      String name = basisProduct.getProductName();
+      BigDecimal price = basisProduct.getPrice();
       Integer quantityPurchase = product.getQuantityPurchase();
       BigDecimal specialPrice = product.getSpecialPrice();
       ReceiptBody createReceiptBody = ReceiptBodyBuilder.bodyBuilder()
-          .withBasisProduct(bodyBasis)
+          .withName(name)
+          .withPrice(price)
           .withQuantityPurchase(quantityPurchase)
           .withSpecialPrice(specialPrice)
           .build();
@@ -39,14 +36,13 @@ public class ProductBodyGenerator {
     List<Product> products = ProductGenerator.generateProductAB();
     for (Product product : products) {
       BasisProduct basisProduct = product.getProductStore().getBasisProduct();
-      BodyBasis bodyBasis = BodyBasisBuilder.builder()
-          .withBodyBasisName(basisProduct.getProductName())
-          .withPrice(basisProduct.getPrice())
-          .build();
+      String name = basisProduct.getProductName();
+      BigDecimal price = basisProduct.getPrice();
       Integer quantityPurchase = product.getQuantityPurchase();
       BigDecimal specialPrice = product.getSpecialPrice();
       ReceiptBody createReceiptBody = ReceiptBodyBuilder.bodyBuilder()
-          .withBasisProduct(bodyBasis)
+          .withName(name)
+          .withPrice(price)
           .withQuantityPurchase(quantityPurchase)
           .withSpecialPrice(specialPrice)
           .build();
