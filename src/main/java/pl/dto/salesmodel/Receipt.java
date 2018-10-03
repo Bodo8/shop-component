@@ -36,9 +36,13 @@ public class Receipt implements Serializable, Comparable<Receipt> {
   private List<ReceiptBody> receiptBodies;
   private SumsUp sumsUp;
 
-  public Receipt() {
-  }
-
+  /**
+   * Create instance of Receipt class.
+   *
+   * @param date - date of issuing of the receipt.
+   * @param receiptBodies - purchased products list.
+   * @param sumsUp - all price calculations.
+   */
   @JsonCreator
   public Receipt(@JsonProperty("id") Integer id,
       @JsonProperty("date") LocalDate date,
@@ -54,6 +58,9 @@ public class Receipt implements Serializable, Comparable<Receipt> {
     this.date = date;
     this.receiptBodies = receiptBodies;
     this.sumsUp = sumsUp;
+  }
+
+  public Receipt() {
   }
 
   @Id

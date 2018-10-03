@@ -37,15 +37,17 @@ public class ReceiptBasketController {
     return service.getReceiptAll();
   }
 
+
   /**
    * @return - all receipts from the database.
    * @throws IOException - when no success reading receipts.
+   * @throws InterruptedException - when thread is interrupted, either before or during the activity.
    */
   @ApiOperation(value = "Post another receipt",
       response = Integer.class)
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  int postReceipt() throws IOException {
+  int postReceipt() throws IOException, InterruptedException {
     return service.postReceipt();
   }
 }

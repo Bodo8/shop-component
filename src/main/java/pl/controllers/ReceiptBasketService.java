@@ -18,9 +18,11 @@ public class ReceiptBasketService {
   }
 
   /**
+   * send currently receipt to database.
    * @return - id new receipt.
+   * @throws InterruptedException - when thread is interrupted, either before or during the activity.
    */
-  int postReceipt() {
+  int postReceipt() throws InterruptedException {
     Receipt receipt = receiptBasket
         .getCurrentReceipt();
     receiptBasket.saveReceipt(receipt);

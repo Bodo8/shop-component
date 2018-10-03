@@ -14,6 +14,14 @@ public class ReceiptBody implements Serializable {
   private Integer quantityPurchase;
   private BigDecimal specialPrice;
 
+  /**
+   * Receipt body for passing information to ReceiptBasket.
+   *
+   * @param name - name product.
+   * @param price - price product.
+   * @param quantityPurchase - purchase quantity.
+   * @param specialPrice - the price payable when purchasing several items.
+   */
   public ReceiptBody(String name, BigDecimal price, Integer quantityPurchase,
       BigDecimal specialPrice) {
     this.name = name;

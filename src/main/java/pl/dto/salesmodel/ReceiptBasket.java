@@ -15,7 +15,12 @@ import pl.dto.salesmodel.sumsupmodel.SumsUpBuilder;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
+/**
+ * ReceiptBasket.
+ */
 @Service
 public class ReceiptBasket {
 
@@ -25,6 +30,7 @@ public class ReceiptBasket {
   private final ProductBasket productBasket;
   @Resource
   private final Calculate calculate;
+  private BlockingQueue<Receipt> queue = new ArrayBlockingQueue<Receipt>(50);
 
   public ReceiptBasket(Database database, ProductBasket productBasket,
       Calculate calculate) {
@@ -33,10 +39,16 @@ public class ReceiptBasket {
     this.calculate = calculate;
   }
 
+  /**
+   * @return - all receipt.
+   */
   public List<Receipt> getAllReceipt() {
     return database.getAllReceipt();
   }
 
+  /**
+   * @return - currently receipt.
+   */
   public Receipt getCurrentReceipt() {
     List<Product> products = getCurrentProducts();
     BigDecimal discountForCommonPurchase = calculate.calculateDiscountForCommonPurchase(products);
@@ -49,11 +61,20 @@ public class ReceiptBasket {
     return receipt;
   }
 
-  public void saveReceipt(Receipt receipt) {
-    database.saveReceipt(receipt);
-    productBasket.clearListWithProductsAfterSave();
+  /**
+   * @param receipt - is saves to database.
+   */
+  public void saveReceipt(Receipt receipt) throws InterruptedException {
+    ProducerReceiptQueue producerReceiptQueue =
+        new ProducerReceiptQueue(queue, receipt);
+    startThread(new Thread(producerReceiptQueue));
+    ConsumerReceiptQueue consumer = new ConsumerReceiptQueue(queue, database);
+    startThread(new Thread(consumer));
   }
 
+  /**
+   * @return - currently receipt, which is edited by the customer.
+   */
   private List<Product> getCurrentProducts() {
     List<Product> products = productBasket.getProducts();
     return products;
@@ -83,5 +104,9 @@ public class ReceiptBasket {
       BigDecimal totalPrice) {
     return SumsUpBuilder.builder()
         .buildWithoutId(discountForCommonPurchase, discountForBigPurchases, totalPrice);
+  }
+
+  static void startThread(Thread thread) throws InterruptedException {
+    thread.start();
   }
 }
