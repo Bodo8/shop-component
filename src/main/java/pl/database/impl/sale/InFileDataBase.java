@@ -110,36 +110,53 @@ public class InFileDataBase implements Database {
     return receiptList.stream().sorted().collect(Collectors.toList());
   }
 
+  /**
+   * @param product - saves given product into a current receipt and database.
+   */
   @Override
   public void saveProduct(Product product) {
-
   }
 
+  /**
+   * @return - all products from the current receipt, from the database.
+   */
   @Override
   public List<Product> getProducts() {
     return null;
   }
 
+  /**
+   * looking for a product in the currently purchase.
+   */
   @Override
   public Product getProduct(String nameProduct) {
     return null;
   }
 
+  /**
+   * deletes product from the currently purchase.
+   */
   @Override
   public void deleteProduct(Product product) {
-
   }
 
+  /**
+   * clear currently list with Products after save.
+   */
   @Override
   public void clearListWithProductsAfterSave() {
-
   }
 
+  /**
+   * changes quantity the purchased of one product.
+   */
   @Override
   public void updateProduct(String productName, Product product) {
-
   }
 
+  /**
+   * @return - generates object Receipt from the ReceiptBody list.
+   */
   @Override
   public Receipt generateReceipt(List<ReceiptBody> receiptBodyList,
       SumsUp sumsUp) {

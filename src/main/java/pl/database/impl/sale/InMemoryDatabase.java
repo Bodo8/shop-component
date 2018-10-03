@@ -31,11 +31,11 @@ public class InMemoryDatabase implements Database {
   private final Map<String, Product> products = new ConcurrentHashMap<>();
 
 
-  Integer getNextReceiptId() {
+  private Integer getNextReceiptId() {
     return atomicInteger.getAndIncrement();
   }
 
-  Integer getNextProductId() {
+  private Integer getNextProductId() {
     return productAtomicInteger.getAndIncrement();
   }
 
@@ -59,11 +59,17 @@ public class InMemoryDatabase implements Database {
         .collect(Collectors.toCollection(() -> Collections.synchronizedList(new ArrayList<>())));
   }
 
+  /**
+   * @param receipt - deletes given receipt into a pl.database.
+   */
   @Override
   public void removeReceipt(Receipt receipt) {
     receipts.remove(receipt.getId());
   }
 
+  /**
+   * @return - generates object Receipt from the ReceiptBody list.
+   */
   @Override
   public Receipt generateReceipt(List<ReceiptBody> receiptBodyList,
       SumsUp sumsUp) {
@@ -74,7 +80,7 @@ public class InMemoryDatabase implements Database {
   }
 
   /**
-   * @param product saves given product into a current receipt and database.
+   * @param product - saves given product into a current receipt and database.
    */
   @Override
   public synchronized void saveProduct(Product product) {
@@ -96,22 +102,34 @@ public class InMemoryDatabase implements Database {
         .collect(Collectors.toCollection(() -> Collections.synchronizedList(new ArrayList<>())));
   }
 
+  /**
+   * looking for a product in the currently purchase.
+   */
   @Override
   public Product getProduct(String nameProduct) {
     return products.get(nameProduct);
   }
 
+  /**
+   * deletes product from the currently purchase.
+   */
   @Override
   public void deleteProduct(Product product) {
     products.remove(product.getProductStore()
         .getBasisProduct().getProductName());
   }
 
+  /**
+   * clear currently list with Products after save.
+   */
   @Override
   public void clearListWithProductsAfterSave() {
     products.clear();
   }
 
+  /**
+   * changes quantity the purchased of one product.
+   */
   @Override
   public synchronized void updateProduct(String productName, Product product) {
     products.compute(productName, (key, product1) -> products.replace(productName, product));
